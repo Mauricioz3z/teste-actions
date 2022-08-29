@@ -27,7 +27,7 @@ jobs:
       uses: garygrossgarten/github-action-scp@v0.7.3
       with:
         local: ./teste-actions/bin/Debug/netcoreapp3.1/
-        remote: ./teste-actions/
+        remote: ./apps/teste-actions/
         host:  ${{ secrets.HOST }}
         username: ${{ secrets.USR }}
         port: 22
