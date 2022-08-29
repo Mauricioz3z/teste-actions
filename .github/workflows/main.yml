@@ -1,0 +1,42 @@
+name: .NET
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: debian-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: 📂 Publicando
+      uses: garygrossgarten/github-action-scp@v0.7.3
+      with:
+        local: ./teste-actions/bin/Debug/netcoreapp3.1/
+        remote: ./teste-actions/
+        host:  ${{ secrets.HOST }}
+        username: ${{ secrets.USR }}
+        port: 22
+        password: ${{ secrets.PWD }}
+    - name: 💣 Aplicando as mudanças no sistema
+      uses: garygrossgarten/github-action-ssh@v0.6.3
+      with:
+        command: sudo systemctl restart zaatar
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USR }}
+        password: ${{ secrets.PWD }}
+
