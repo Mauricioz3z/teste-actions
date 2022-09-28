@@ -19,14 +19,14 @@ jobs:
         dotnet-version: 3.1.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Publish
+      run: dotnet publish -c Release --output ./Release
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: 📂 Publicando
       uses: garygrossgarten/github-action-scp@v0.7.3
       with:
-        local: ./teste-actions/bin/Debug/netcoreapp3.1/
+        local: ./Release/
         remote: ./apps/teste-actions/
         host:  ${{ secrets.HOST }}
         username: ${{ secrets.USR }}
