@@ -11,6 +11,7 @@ namespace teste_actions
 {
     public class Program
     {
+        //teste
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
